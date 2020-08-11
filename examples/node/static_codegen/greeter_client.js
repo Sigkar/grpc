@@ -21,7 +21,7 @@ const services = require("./helloworld_grpc_pb");
 
 const grpc = require("grpc");
 
-function main() {
+const main = () => {
   const client = new services.GreeterClient(
     "localhost:50051",
     grpc.credentials.createInsecure()
@@ -37,6 +37,6 @@ function main() {
   client.sayHello(request, (err, response) => {
     console.log("Greeting:", response.getMessage());
   });
-}
+};
 
 main();
