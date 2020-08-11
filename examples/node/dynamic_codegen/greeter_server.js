@@ -16,36 +16,35 @@
  *
  */
 
-var PROTO_PATH = __dirname + '/../../protos/helloworld.proto';
+const PROTO_PATH = __dirname + "/../../protos/helloworld.proto";
 
-var grpc = require('grpc');
-var protoLoader = require('@grpc/proto-loader');
-var packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {keepCase: true,
-     longs: String,
-     enums: String,
-     defaults: true,
-     oneofs: true
-    });
-var hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld;
+const grpc = require("grpc");
+const protoLoader = require("@grpc/proto-loader");
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+  keepCase: true,
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true,
+});
+const hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld;
 
 /**
  * Implements the SayHello RPC method.
  */
-function sayHello(call, callback) {
-  callback(null, {message: 'Hello ' + call.request.name});
-}
+const sayHello = (call, callback) => {
+  callback(null, { message: `Hello ${call.request.name}` });
+};
 
 /**
  * Starts an RPC server that receives requests for the Greeter service at the
  * sample server port
  */
-function main() {
-  var server = new grpc.Server();
-  server.addService(hello_proto.Greeter.service, {sayHello: sayHello});
-  server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
+const main = () => {
+  const server = new grpc.Server();
+  server.addService(hello_proto.Greeter.service, { sayHello: sayHello });
+  server.bind("0.0.0.0:50051", grpc.ServerCredentials.createInsecure());
   server.start();
-}
+};
 
 main();
